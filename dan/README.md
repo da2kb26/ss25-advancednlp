@@ -4,7 +4,7 @@ Group 1
 | 298762     | Maximilian Franz             | Paper: Why is this an important contribution to research and practice                 |
 | 376365     | Upanishadh Prabhakar Iyer    | Paper: The research question addressed in the paper (thus, its objective)             |
 | 371696     | Lalitha Kakara               | Paper: What are their results and conclusions drawn from it? What was new in this paper at the time of publication |
-| –          | Muhammad Tahseen Khan        | Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc) |
+| 370280     | Muhammad Tahseen Khan        | Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc) |
 | 372268     | Dina Mohamed                 | Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc) Model: Implemented live sentinent analysis in transformer & structured repo |
 | 368717     | Yash Bhavneshbhai Pathak     | Model: DAN-based Encoder algorithm implementation                                     |
 | 376419     | Niharika Patil               | Model: Transformer-based Encoder algorithm implementation                             |
