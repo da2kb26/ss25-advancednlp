@@ -28,6 +28,12 @@ The model is trained on the shared dataset located in the `../data/` folder, whi
 - Stanza
 - scikit-learn
 
+### Navigate to the right folder
+
+```bash
+cd transformer
+```
+
 ### 📦 Install Dependencies
 
 ```bash
