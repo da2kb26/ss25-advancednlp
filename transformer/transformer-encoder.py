@@ -146,10 +146,9 @@ def predict_text(text, model, vocab, max_len=64):
         pred = out.argmax(dim=1).item()
     return "Positive" if pred == 1 else "Negative"
 
-# Interactive loop
 try:
-    model  # check if model exists
-    vocabulary  # check if vocabulary exists
+    model  # check existance
+    vocabulary # check existance
 except NameError:
     print("Model or vocabulary not found. Please ensure training has completed.")
 else:
