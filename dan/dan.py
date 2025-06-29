@@ -6,7 +6,7 @@
 # 371696            Lalitha Kakara                  Paper: What are their results and conclusions drawn from it? 
 #                                                   What was new in this paper at the time of publication (with respect to the literature that existed beforehand)?
 # 370280            Muhammad Tahseen Khan           Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc)
-# 372268            Dina Mohamed                    Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc) Model: Implemented live sentinent analysis in transformer & structured repo
+# 372268            Dina Mohamed                    Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc) Model: Implemented live sentiment analysis in transformer & structured repo
 # 368717            Yash Bhavneshbhai Pathak        Model: DAN-based Encoder algorithm implementation
 # 376419            Niharika Patil                  Model: Transformer-based Encoder algorithm implementation
 # 373575            Mona Pourtabarestani            Paper: What are their results and conclusions drawn from it? 
