@@ -1,3 +1,19 @@
+# Group 1
+# Student ID        Member Name                      Role
+# -------------------------------------------------------------------------------
+# 298762            Maximilian Franz                Paper: Why is this an important contribution to research and practice
+# 376365            Upanishadh Prabhakar Iyer       Paper: The research question addressed in the paper (thus, its objective)
+# 371696            Lalitha Kakara                  Paper: What are their results and conclusions drawn from it? 
+#                                                   What was new in this paper at the time of publication (with respect to the literature that existed beforehand)?
+# (no ID)           Muhammad Tahseen Khan           Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc)
+# 372268            Dina Mohamed                    Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc) Model: Implemented live sentinent analysis in transformer & structured repo
+# 368717            Yash Bhavneshbhai Pathak        Model: DAN-based Encoder algorithm implementation
+# 376419            Niharika Patil                  Model: Transformer-based Encoder algorithm implementation
+# 373575            Mona Pourtabarestani            Paper: What are their results and conclusions drawn from it? 
+#                                                   What was new in this paper at the time of publication (with respect to the literature that existed beforehand)?
+# 350635            Divya Bharathi Srinivasan       Model: DAN-based Encoder algorithm implementation
+# 364131            Siddu Vathar                    Paper: Why is this an important contribution to research and practice
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -109,5 +125,36 @@ def train_and_evaluate():
 
     print("Accuracy:", accuracy_score(golds, preds))
     print(classification_report(golds, preds))
+    return model, vocabulary
 
-train_and_evaluate()
+model, vocabulary = train_and_evaluate()
+
+# Predict custom sentence
+def predict_text(text, model, vocab, max_len=64):
+    nlp = stanza.Pipeline(lang='en', processors='tokenize', tokenize_no_ssplit=True, verbose=False)
+    doc = nlp(text)
+    word_to_idx = vocab
+    tokens = []
+    for word in doc.sentences[0].words:
+        token = word.text.lower()
+        tokens.append(word_to_idx.get(token, word_to_idx['<UNK>']))
+    tokens = tokens[:max_len] + [0] * (max_len - len(tokens))
+    input_tensor = torch.tensor([tokens])
+
+    with torch.no_grad():
+        out = model(input_tensor)
+        pred = out.argmax(dim=1).item()
+    return "Positive" if pred == 1 else "Negative"
+
+# Interactive loop
+try:
+    model  # check if model exists
+    vocabulary  # check if vocabulary exists
+except NameError:
+    print("Model or vocabulary not found. Please ensure training has completed.")
+else:
+    while True:
+        user_input = input("\nEnter a sentence (or type 'exit'): ")
+        if user_input.lower() == 'exit':
+            break
+        print("Prediction:", predict_text(user_input, model, vocabulary))

@@ -12,27 +12,25 @@ Group 1
 | 350635     | Divya Bharathi Srinivasan    | Model: DAN-based Encoder algorithm implementation                                     |
 | 364131     | Siddu Vathar                 | Paper: Why is this an important contribution to research and practice                 |
 
-# ss25-advancednlp
 
-## 🧠 Encoders
+# Transformer-based Encoder
 
-This project includes **two different sentence encoders** for binary sentiment classification:
+This module implements a **Transformer-based encoder** for binary sentiment classification.
 
-1. **DAN** (Deep Averaging Network) — a simple and fast baseline model located in the `dan/` folder.
-2. **Transformer-based encoder** — a more powerful contextual model located in the `transformer/` folder.
+The model is trained on the shared dataset located in the `../data/` folder, which includes labeled sentences from Amazon, IMDB, and Yelp.
 
-Each encoder is implemented independently and can be run separately. Refer to the `README.md` file inside each subfolder for detailed instructions on training, evaluation, and prediction.
+## 📦 How to Run
 
-## 📁 Dataset
+1. Install the required dependencies:
 
-The dataset used for both models comes from the **UCI Sentiment Labelled Sentences Data Set** and is located in the `/data/` folder. It includes:
-
-- `amazon_cells_labelled.txt`
-- `imdb_labelled.txt`
-- `yelp_labelled.txt`
-
-**Format:**
+```bash
+pip install torch stanza scikit-learn
 ```
-<sentence> \t <label>
+
+2. Run the model training and prediction:
+
+```bash
+python transformer.py
 ```
-- `label` is either `0` (Negative) or `1` (Positive)
+
+After training, you'll be prompted to input your own sentences for live sentiment prediction.

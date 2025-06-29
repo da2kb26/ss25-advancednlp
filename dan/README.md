@@ -1,3 +1,16 @@
+Group 1
+| Student ID | Member Name                  | Role                                                                                   |
+|------------|------------------------------|----------------------------------------------------------------------------------------|
+| 298762     | Maximilian Franz             | Paper: Why is this an important contribution to research and practice                 |
+| 376365     | Upanishadh Prabhakar Iyer    | Paper: The research question addressed in the paper (thus, its objective)             |
+| 371696     | Lalitha Kakara               | Paper: What are their results and conclusions drawn from it? What was new in this paper at the time of publication |
+| –          | Muhammad Tahseen Khan        | Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc) |
+| 372268     | Dina Mohamed                 | Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc) Model: Implemented live sentinent analysis in transformer & structured repo |
+| 368717     | Yash Bhavneshbhai Pathak     | Model: DAN-based Encoder algorithm implementation                                     |
+| 376419     | Niharika Patil               | Model: Transformer-based Encoder algorithm implementation                             |
+| 373575     | Mona Pourtabarestani         | Paper: What are their results and conclusions drawn from it? What was new in this paper at the time of publication |
+| 350635     | Divya Bharathi Srinivasan    | Model: DAN-based Encoder algorithm implementation                                     |
+| 364131     | Siddu Vathar                 | Paper: Why is this an important contribution to research and practice                 |
 
 # Deep Averaging Network (DAN) for Sentiment Analysis
 
@@ -12,22 +25,6 @@ This project implements a **Deep Averaging Network (DAN)** using **PyTorch** for
 - 🗃 Dataset: Real reviews from Amazon, IMDB, and Yelp.
 - 🔍 Task: Binary classification — `Positive (1)` or `Negative (0)`.
 - 👨‍💻 Live prediction: You can enter your own sentence to see the sentiment result.
-
----
-
-## 📁 Dataset
-
-The dataset comes from the **UCI Sentiment Labelled Sentences Data Set** and is located in the `data/` folder. It includes:
-
-- `amazon_cells_labelled.txt`
-- `imdb_labelled.txt`
-- `yelp_labelled.txt`
-
-**Format:**
-```
-<sentence> \t <label>
-```
-- `label` is either `0` (Negative) or `1` (Positive)
 
 ---
 
@@ -74,7 +71,7 @@ python -c "import stanza; stanza.download('en')"
 ### 🚀 Run the Script
 
 ```bash
-python dan_model.py
+python dan.py
 ```
 
 After training, you'll be able to enter your own sentence like:

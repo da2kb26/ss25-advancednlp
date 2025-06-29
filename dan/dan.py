@@ -1,3 +1,19 @@
+# Group 1
+# Student ID        Member Name                      Role
+# -------------------------------------------------------------------------------
+# 298762            Maximilian Franz                Paper: Why is this an important contribution to research and practice
+# 376365            Upanishadh Prabhakar Iyer       Paper: The research question addressed in the paper (thus, its objective)
+# 371696            Lalitha Kakara                  Paper: What are their results and conclusions drawn from it? 
+#                                                   What was new in this paper at the time of publication (with respect to the literature that existed beforehand)?
+# (no ID)           Muhammad Tahseen Khan           Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc)
+# 372268            Dina Mohamed                    Paper: What did the authors actually do (procedure, algorithms used, input/output data, etc) Model: Implemented live sentinent analysis in transformer & structured repo
+# 368717            Yash Bhavneshbhai Pathak        Model: DAN-based Encoder algorithm implementation
+# 376419            Niharika Patil                  Model: Transformer-based Encoder algorithm implementation
+# 373575            Mona Pourtabarestani            Paper: What are their results and conclusions drawn from it? 
+#                                                   What was new in this paper at the time of publication (with respect to the literature that existed beforehand)?
+# 350635            Divya Bharathi Srinivasan       Model: DAN-based Encoder algorithm implementation
+# 364131            Siddu Vathar                    Paper: Why is this an important contribution to research and practice
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -78,7 +94,7 @@ class DAN(nn.Module):
         return self.fc2(x)
 
 # Load and preprocess full dataset
-folder = 'data'
+folder = './../data'
 texts, labels = load_dataset(folder)
 tokens = tokenize_sentences(texts)
 vocab = build_vocab(tokens)
