@@ -56,6 +56,12 @@ This project implements a **Deep Averaging Network (DAN)** using **PyTorch** for
 - Stanza
 - scikit-learn
 
+### Navigate to the right folder
+
+```bash
+cd dan
+```
+
 ### 📦 Install Dependencies
 
 ```bash
