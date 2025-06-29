@@ -19,9 +19,9 @@ This module implements a **Transformer-based encoder** for binary sentiment clas
 
 The model is trained on the shared dataset located in the `../data/` folder, which includes labeled sentences from Amazon, IMDB, and Yelp.
 
-## ▶️ How to Run
+## How to Run
 
-### ✅ Requirements
+### Requirements
 
 - Python 3.8+
 - PyTorch
@@ -34,19 +34,19 @@ The model is trained on the shared dataset located in the `../data/` folder, whi
 cd transformer
 ```
 
-### 📦 Install Dependencies
+### Install Dependencies
 
 ```bash
 pip install torch stanza scikit-learn
 ```
 
-### 🧠 Download Stanza English Model
+### Download Stanza English Model
 
 ```bash
 python -c "import stanza; stanza.download('en')"
 ```
 
-### 🚀 Run the Script
+### Run the Script
 
 ```bash
 python transformer-encoder.py
