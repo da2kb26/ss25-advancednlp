@@ -14,7 +14,7 @@ Group 1
 
 # ss25-advancednlp
 
-## 🧠 Encoders
+## Encoders
 
 This project includes **two different sentence encoders** for binary sentiment classification:
 
@@ -23,7 +23,7 @@ This project includes **two different sentence encoders** for binary sentiment c
 
 Each encoder is implemented independently and can be run separately. Refer to the `README.md` file inside each subfolder for detailed instructions on training, evaluation, and prediction.
 
-## 📁 Dataset
+## Dataset
 
 The dataset used for both models comes from the **UCI Sentiment Labelled Sentences Data Set** and is located in the `/data/` folder. It includes:
 
