@@ -15,22 +15,43 @@ Group 1
 
 # Transformer-based Encoder
 
-This module implements a **Transformer-based encoder** for binary sentiment classification.
+This module implements a **Transformer-based encoder** for binary sentiment classification. It classifies input sentences as **Positive** or **Negative**, based on real-world product and movie reviews.
 
 The model is trained on the shared dataset located in the `../data/` folder, which includes labeled sentences from Amazon, IMDB, and Yelp.
 
-## 📦 How to Run
+## ▶️ How to Run
 
-1. Install the required dependencies:
+### ✅ Requirements
+
+- Python 3.8+
+- PyTorch
+- Stanza
+- scikit-learn
+
+### 📦 Install Dependencies
 
 ```bash
 pip install torch stanza scikit-learn
 ```
 
-2. Run the model training and prediction:
+### 🧠 Download Stanza English Model
 
 ```bash
-python transformer.py
+python -c "import stanza; stanza.download('en')"
 ```
+
+### 🚀 Run the Script
+
+```bash
+python transformer-encoder.py
+```
+
+After training, you'll be able to enter your own sentence like:
+
+```bash
+Enter a sentence (or type 'exit'): I really enjoyed the movie!
+Prediction: Positive
+```
+
 
 After training, you'll be prompted to input your own sentences for live sentiment prediction.
