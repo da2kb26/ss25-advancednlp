@@ -25,89 +25,91 @@ from torch.utils.data import TensorDataset, DataLoader
 import math
 
 # Load the dataset
-def dataset_load_func(folder):
-    texts, labels = [], []
+def dataset_load(folder):
+    sentences, score = [], []
     files = ['amazon_cells_labelled.txt', 'imdb_labelled.txt', 'yelp_labelled.txt']
     for filename in files:
         with open(os.path.join(folder, filename), 'r', encoding='utf-8') as f:
             for line in f:
                 parts = line.strip().split('\t')
                 if len(parts) == 2:
-                    texts.append(parts[0])
-                    labels.append(int(parts[1]))
-    return {"texts": texts, "labels": torch.tensor(labels)}
+                    sentences.append(parts[0])
+                    score.append(int(parts[1]))
+    return {"sentences": sentences, "score": torch.tensor(score)}
 
 # Transformer-based sentence encoder
 class transformer_sentence_encoder(nn.Module):
     def __init__(self, vocab_size, embed_dim=128, max_len=64):
         super().__init__()
         self.embedding = nn.Embedding(vocab_size, embed_dim)
-        self.pos_encoding = self._init_pos_encoding(max_len, embed_dim)
+        self.pos_encoding = self._init_position_encoding(max_len, embed_dim)
         encoder_layer = nn.TransformerEncoderLayer(d_model=embed_dim, nhead=8, batch_first=True)
         self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=2)
         self.embed_dim = embed_dim
 
-    def _init_pos_encoding(self, max_len, embed_dim):
-        pe = torch.zeros(max_len, embed_dim)
-        position = torch.arange(0, max_len).unsqueeze(1).float()
-        div_term = torch.exp(torch.arange(0, embed_dim, 2).float() * (-math.log(10000.0) / embed_dim))
-        pe[:, 0::2] = torch.sin(position * div_term)
-        pe[:, 1::2] = torch.cos(position * div_term)
-        return pe.unsqueeze(0)
+    def _init_position_encoding(self, max_len, embed_dim):
+        positional_encoding = torch.zeros(max_len, embed_dim) #a tensor to hold positional encodings: one row per posisiton, one column per dim
+        positional_indices = torch.arange(start = 0, end = max_len, dtype=torch.float).unsqueeze(1) # this is the vector of positions
+        angle_rates = torch.exp(torch.arange(start = 0, end = embed_dim,step = 2, dtype = torch.float) * (-math.log(10000.0)/embed_dim)) 
+        sin_part = torch.sin(positional_indices * angle_rates)
+        cos_part = torch.cos(positional_indices * angle_rates)
+        positional_encoding[:, 0::2] = sin_part
+        positional_encoding[:, 1::2] = cos_part
+        return positional_encoding.unsqueeze(0)
 
     def forward(self, x):
         seq_len = x.size(1)
         x = self.embedding(x) + self.pos_encoding[:, :seq_len].to(x.device)
         x = self.transformer(x)
-        x = x.sum(dim=1) / math.sqrt(seq_len)  # USE paper pooling
+        x = x.sum(dim=1) / math.sqrt(seq_len)  
         return x
 
 # Classifier using the encoder
 class transformer_classifier(nn.Module):
     def __init__(self, vocab_size, embed_dim=128):
         super().__init__()
-        self.encoder = transformer_sentence_encoder(vocab_size, embed_dim)
-        self.classifier = nn.Linear(embed_dim, 2)
+        self.transform_encoder = transformer_sentence_encoder(vocab_size, embed_dim)
+        self.transform_classifier = nn.Linear(embed_dim, 2)
 
     def forward(self, x):
-        x = self.encoder(x)
-        return self.classifier(x)
+        x = self.transform_encoder(x)
+        return self.transform_classifier(x)
 
 # Tokenizer and vocab builder
 def build_vocabulary_and_tokenization(texts, nlp, max_len=64):
-    vocab = {'<PAD>': 0, '<UNK>': 1}
+    vocabulary = {'<PAD>': 0, '<UNK>': 1}
     tokens = []
     for sent in texts:
         doc = nlp(sent)
         ids = []
         for word in doc.sentences[0].words:
             token = word.text.lower()
-            if token not in vocab:
-                vocab[token] = len(vocab)
-            ids.append(vocab[token])
+            if token not in vocabulary:
+                vocabulary[token] = len(vocabulary)
+            ids.append(vocabulary[token])
         ids = ids[:max_len]
-        ids += [0] * (max_len - len(ids))  # pad
+        ids += [vocabulary['<PAD>']] * (max_len - len(ids))  # pad
         tokens.append(ids)
-    return torch.tensor(tokens), vocab
+    return torch.tensor(tokens), vocabulary
 
 # Training and evaluation
 def train_and_evaluate():
-    files = dataset_load_func("../data")
+    files = dataset_load("../data")
     nlp = stanza.Pipeline(lang='en', processors='tokenize', tokenize_no_ssplit=True, verbose=False)
-    token, vocabulary = build_vocabulary_and_tokenization(files["texts"], nlp)
-    labels = files["labels"]
+    token, vocabulary = build_vocabulary_and_tokenization(files["sentences"], nlp)
+    labels = files["score"]
 
-    X_train, X_test, y_train, y_test = train_test_split(token, labels, test_size=0.2, random_state=42)
-    train_loader = DataLoader(TensorDataset(X_train, y_train), batch_size=32, shuffle=True)
-    test_loader = DataLoader(TensorDataset(X_test, y_test), batch_size=32)
+    X_training, X_testing, y_training, y_testing = train_test_split(token, labels, test_size=0.2, random_state=42)
+    training_loader = DataLoader(TensorDataset(X_training, y_training), batch_size=32, shuffle=True)
+    testing_loader = DataLoader(TensorDataset(X_testing, y_testing), batch_size=32)
 
     model = transformer_classifier(vocab_size=len(vocabulary))
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
     criterion = nn.CrossEntropyLoss()
 
-    for epoch in range(60):
+    for epoch in range(30):
         model.train()
-        for xb, yb in train_loader:
+        for xb, yb in training_loader:
             optimizer.zero_grad()
             output = model(xb)
             loss = criterion(output, yb)
@@ -118,7 +120,7 @@ def train_and_evaluate():
     model.eval()
     preds, golds = [], []
     with torch.no_grad():
-        for xb, yb in test_loader:
+        for xb, yb in testing_loader:
             out = model(xb)
             preds.extend(torch.argmax(out, dim=1).tolist())
             golds.extend(yb.tolist())
